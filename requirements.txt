@@ -1,0 +1,4 @@
+django==1.9.9
+celery==3.1.26
+redis==2.8.0
+python-dotenv==0.10.5
