@@ -49,11 +49,11 @@ def send_newsletter(newsletter_id):
         try:
             msg.send()
             logger.info(
-                u'Письмо успешно отправлено'
+                u'Письмо успешно отправлено '
                 u'подписчику: {}'.format(subscriber.email)
             )
         except Exception as e:
             logger.error(
-                u'Ошибка при отправке письма'
+                u'Ошибка при отправке письма '
                 u'подписчику {}: {}'.format(subscriber.email, str(e))
             )

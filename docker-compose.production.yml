@@ -5,13 +5,16 @@ volumes:
 services:
   db:
     image: postgres:11.7
+    restart: unless-stopped
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
   redis:
     image: redis:latest
+    restart: unless-stopped
   mailer:
     image: meteopavel/legacy_django_mailer-mailer
+    restart: unless-stopped
     env_file: .env
     volumes: 
       - static:/static
@@ -20,12 +23,14 @@ services:
       - redis
   celery:
     image: meteopavel/legacy_django_mailer-celery
+    restart: unless-stopped
     command: celery -A mailer worker --loglevel=info
     env_file: .env
     depends_on:
       - redis
   gateway:
     image: meteopavel/legacy_django_mailer-gateway
+    restart: unless-stopped
     env_file: .env 
     ports:
       - 8111:80 
