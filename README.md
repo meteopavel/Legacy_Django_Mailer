@@ -7,7 +7,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/meteopavel/legacy_django_mailer">
-    <img src="images/logo-big.png" alt="Logo" width="400" height="316">
+    <img src="images/logo-big.png" alt="Logo" width="400" height="400">
   </a>
 
   <h3 align="center">Legacy Django Mailer</h3>
