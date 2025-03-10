@@ -1,5 +1,27 @@
-# Legacy Django Mailer
-Сервис рассылки электронной почты на Python 2.7 и Django 1.9.9
+<!-- PROJECT SHIELDS -->
+[![Python][Python-shield]][Python-url]
+[![Django][Django-shield]][Django-url]
+[![PostgreSQL][PostgreSQL-shield]][PostgreSQL-url]
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/meteopavel/legacy_django_mailer">
+    <img src="images/logo-big.png" alt="Logo" width="400" height="316">
+  </a>
+
+  <h3 align="center">Legacy Django Mailer</h3>
+
+  <p align="center">
+    Удобный сервис рассылки email!
+    <br />
+    <a href="https://legacymailer.meteopavel.space/newsletters/create-newsletter">Демо-версия</a>
+    ·
+    <a href="https://github.com/meteopavel/legacy_django_mailer/issues/new?labels=bug">Сообщить об ошибке</a>
+    ·
+    <a href="https://github.com/meteopavel/legacy_django_mailer/issues/new?labels=enhancement">Предложить улучшение</a>
+  </p>
+</div>
 
 ## Основной функционал
 1. Отправка рассылок с использованием HTML-макета и списка подписчиков.
@@ -14,44 +36,39 @@
 * Redis
 * Celery
 * Python-dotenv
+* PostgreSQL
+* Gunicorn
+* Requests
 
-## Как развернуть проект локально (эта инструкция для Windows)
-* Установить и запустить Redis (для Windows рекомендую воспользоваться [инструкцией](https://skillbox.ru/media/base/kak_ustanovit_redis_v_os_windows_bez_ispolzovaniya_docker/))
+## Как развернуть проект локально
 * Поднять HTTPS-тоннель (рекомендую [xTunnel](https://xtunnel.ru/))
 * Для рассылок необходим SMTP-сервер. Можно воспользоваться любым из доступных (я использовал [smtp.bz](https://smtp.bz/)) 
 * Клонировать репозиторий с проектом:
 ```
 git@github.com:meteopavel/legacy_django_mailer.git
 ```
-* Создать и активировать виртуальное окружение (Python 2.7) и установить зависимости из файла requiremnets.txt:
-```
-pip install virtualenv
-virtualenv -p python2 venv
-
-source venv/Scripts/activate
-cd ./mailer
-```
 * Создать файл .env и заполнить его переменными по примеру из файла .env.example
-* Выполнить миграции:
+* Установить и запустить Docker
+* Выполнить команды:
 ```
-python manage.py migrate
+docker compose up -d --build
+docker compose exec mailer python manage.py migrate
+docker compose exec mailer python manage.py collectstatic --no-input
+docker compose exec mailer python manage.py createsuperuser
 ```
-* Создать суперпользователя для админ-панели:
-```
-python manage.py createsuperuser
-```
-* Создать сервер Django:
-```
-python manage.py runserver
-```
-* В отдельной консоли запустить Celery:
-```
-celery -A mailer worker --loglevel=info
-```
-* Зайти в админ-панель по адресу http://localhost:8000/admin/ и заполнить дво-три подписчика для тестирования рассылки
-* Пройти на эндпоинт http://127.0.0.1:8000/newsletters/create-newsletter/ и заполнить модальное окно создания рассылки *(тему заполнять латинскими символами - там пока нерешённый баг админки)*
+* Зайти в админ-панель по адресу http://localhost:8111/admin/ и заполнить дво-три подписчика для тестирования рассылки
+* Пройти на эндпоинт http://127.0.0.1:8111/newsletters/create-newsletter/ и заполнить модальное окно создания рассылки *(тему заполнять латинскими символами - там пока нерешённый баг админки)*
 * После отправки на указанные почты поступит письмо с HTML-макетом и встроенным пикселем открытия. Подробно об этом можно узнать в статье от [Mailganer](https://mailganer.com/ru/explanation/kak-rabotaet-piksel-otkrytij-v-pismah)
 * После открытия писем в админ панели в разделе Email opens появится информация об открытых письмах
 
 ## Автор
 [Павел Найденов](https://github.com/meteopavel)
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[Python-shield]: https://img.shields.io/badge/Python-v2.7-blue?style=flat&logo=python&labelColor=FDEBD0&logoColor=blue
+[Python-url]: https://www.python.org/downloads/release/python-2718/
+[Django-shield]: https://img.shields.io/badge/Django-v1.9-green?style=flat&logo=django&labelColor=FDEBD0&logoColor=blue
+[Django-url]: https://docs.djangoproject.com/en/5.0/releases/1.9/
+[PostgreSQL-shield]: https://img.shields.io/badge/PostgreSQL-v11.7-blue?style=flat&logo=PostgreSQL&labelColor=FDEBD0&logoColor=blue
+[PostgreSQL-url]: https://www.postgresql.org/docs/13/release-11-7.html 
